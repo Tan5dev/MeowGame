@@ -55,15 +55,26 @@ func _process(delta: float) -> void: # runs EVERY FRAME
 	timer.text = "[center]" + str(time) + "[/center]" # make the text reflect the value of the time variable. this makes names easier. the str() converts the int to a String
 	level.text = "[center]" + "Level " + str(Global.minigames_done + 1) + "[/center]" # this tells you want minigame you're on using concatenation (google the word yo)
 	if Global.minigames_done == 0:
-		hint.text = "[center]Hint: Collect all three coins[/center]"
+		hint.text = "[center]Hint: Collect all three coins
+		(controls: A, D, Space)[/center]"
 	elif Global.minigames_done == 1:
-		hint.text = "[center]Hint: Click all ten coins[/center]"
+		hint.text = "[center]Hint: Click all ten coins
+		(controls: Mouse click)[/center]"
 	elif Global.minigames_done == 2:
-		hint.text = "[center]Hint: Navigate through the obstacles[/center]"
+		hint.text = "[center]Hint: Navigate through the obstacles
+		(controls: Space)[/center]"
 	elif Global.minigames_done == 3:
-		hint.text = "[center]Hint: It's Pong[/center]"
+		hint.text = "[center]Hint: Collect 8 fruits
+		(controls: Mouse)[/center]"
 	elif Global.minigames_done == 4:
-		hint.text = "[center]Hint: Use your mouse to steer, and go left[/center]"
+		hint.text = "[center]Hint: Jump over the obstacles
+		(controls: Space)[/center]"
+	elif Global.minigames_done == 5:
+		hint.text = "[center]Hint: Climb to the top
+		(controls: A, D, Space)[/center]"
+	elif Global.minigames_done == 6:
+		hint.text = "[center]Hint: Navigate through the obstacles
+		(controls: A, D)[/center]"
 
 func Timer(start_time: float): # making a new function for timer countdown!
 	# we want the timer to go down, and when it reaches 0 it transitions 
@@ -80,4 +91,4 @@ func Timer(start_time: float): # making a new function for timer countdown!
 	return
 
 func wait(seconds: float) -> void: # write this simple function out for wait!
-	await get_tree().create_timer(seconds).timeout # makes u wait, dw abt this being complex '''
+	await get_tree().create_timer(seconds, false).timeout # makes u wait, dw abt this being complex '''

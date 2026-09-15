@@ -2,58 +2,63 @@
 
 [ext_resource type="Script" uid="uid://b8tv0bfd5pg6p" path="res://Scenes/player_flappy_bird.gd" id="1_scgws"]
 [ext_resource type="Texture2D" uid="uid://cgymrwblob37v" path="res://Assets/Player/MeowGame Flappy Bird Player.png" id="2_svlbe"]
+[ext_resource type="Texture2D" uid="uid://5dc2dp7ngppa" path="res://Assets/Normal Maps/Flappy Bird Player Normal Map/MeowGame Flappy Bird Player_normal.png" id="3_tjj8t"]
+[ext_resource type="Texture2D" uid="uid://nab2qavbnd1w" path="res://Assets/Normal Maps/Flappy Bird Player Normal Map/MeowGame Flappy Bird Player_specular.png" id="4_gc8yn"]
+[ext_resource type="AudioStream" uid="uid://215ueuyjdgyn" path="res://Assets/Audio/Gust of Wind.wav" id="5_gc8yn"]
 
 [sub_resource type="Gradient" id="Gradient_k275q"]
-colors = PackedColorArray(1, 0, 1, 0.6745098, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.8072289)
+colors = PackedColorArray(1, 1, 1, 0.6745098, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_6p6qw"]
 gradient = SubResource("Gradient_k275q")
-width = 24
-height = 16
+width = 48
+height = 32
 fill = 1
 fill_from = Vector2(0.5043478, 0.47826087)
-fill_to = Vector2(1, 0.5043478)
+fill_to = Vector2(1, 0.4826087)
 
 [sub_resource type="Curve" id="Curve_svlbe"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_4gxqj"]
-curve = SubResource("Curve_svlbe")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6p6qw"]
-lifetime_randomness = 0.09
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(27.26, 10.95, 1)
-direction = Vector3(0, 1, 0)
-spread = 42.882
-initial_velocity_min = 478.49
-initial_velocity_max = 478.49
-scale_curve = SubResource("CurveTexture_4gxqj")
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_6p6qw"]
 radius = 31.06445
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_75k32"]
+diffuse_texture = ExtResource("2_svlbe")
+normal_texture = ExtResource("3_tjj8t")
+specular_texture = ExtResource("4_gc8yn")
+
 [sub_resource type="Gradient" id="Gradient_svlbe"]
-offsets = PackedFloat32Array(0.024096385, 1)
+offsets = PackedFloat32Array(0.18674698, 0.6927711)
 colors = PackedColorArray(0.42476186, 0.6067884, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_svlbe"]
 gradient = SubResource("Gradient_svlbe")
 fill = 1
 fill_from = Vector2(0.47826087, 0.5217391)
-fill_to = Vector2(1, 0.57391304)
+fill_to = Vector2(1, 0.526087)
 
 [node name="Player Flappy Bird" type="CharacterBody2D" unique_id=651461736]
 script = ExtResource("1_scgws")
 
-[node name="Particles" type="GPUParticles2D" parent="." unique_id=1751693286]
+[node name="Particles" type="CPUParticles2D" parent="." unique_id=1052940659]
+position = Vector2(0, -16)
 emitting = false
 texture = SubResource("GradientTexture2D_6p6qw")
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_6p6qw")
+lifetime_randomness = 0.09
+draw_order = 1
+emission_shape = 3
+emission_rect_extents = Vector2(27.26, 10.95)
+direction = Vector2(-1, 1)
+spread = 42.882
+gravity = Vector2(0, -9.8)
+initial_velocity_min = 478.49
+initial_velocity_max = 478.49
+scale_amount_curve = SubResource("Curve_svlbe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=360043448]
 shape = SubResource("CircleShape2D_6p6qw")
@@ -64,15 +69,22 @@ shape = SubResource("CircleShape2D_6p6qw")
 shape = SubResource("CircleShape2D_6p6qw")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1068937335]
-offset_left = -35.0
-offset_top = -45.0
-offset_right = 36.0
-offset_bottom = 50.0
-texture = ExtResource("2_svlbe")
+offset_left = -72.0
+offset_top = -24.0
+offset_right = 67.0
+offset_bottom = 38.0
+texture = SubResource("CanvasTexture_75k32")
 stretch_mode = 4
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=334958613]
-position = Vector2(-8.6736174e-19, 0)
-scale = Vector2(1.249999, 1.2500002)
+position = Vector2(-1.9073486e-06, 8.583069e-06)
+scale = Vector2(2.75, 2.0000002)
+energy = 0.5
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_svlbe")
+
+[node name="WindSound" type="AudioStreamPlayer2D" parent="." unique_id=1591314006]
+stream = ExtResource("5_gc8yn")
+pitch_scale = 0.83
+
+[connection signal="finished" from="Particles" to="." method="_on_particles_finished"]

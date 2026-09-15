@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://c3sr70ee7rhy3"]
+
+[ext_resource type="Script" uid="uid://bqjbrhq4kfxdn" path="res://Scenes/minigame_5.gd" id="1_6fijl"]
+[ext_resource type="Texture2D" uid="uid://p6jwfvil742t" path="res://Assets/Background/MeowGame Sky Background.png" id="2_6fijl"]
+[ext_resource type="Texture2D" uid="uid://pnq1j7k5or3m" path="res://Assets/Objects/MeowGame Platformer Ground.png" id="2_bgv4i"]
+[ext_resource type="PackedScene" uid="uid://cw6se0yq3tn5k" path="res://Scenes/player_jumping_game.tscn" id="4_28s5m"]
+[ext_resource type="Script" uid="uid://bwccjqw67eei5" path="res://Scenes/obstacle_spike.gd" id="5_ofli8"]
+[ext_resource type="Texture2D" uid="uid://cfmnetxguc0le" path="res://Assets/Objects/MeowGame Bush Obstacle.png" id="6_kpx3j"]
+[ext_resource type="PackedScene" uid="uid://dbyolgwo443uk" path="res://Scenes/timer.tscn" id="7_ykq01"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fijl"]
+size = Vector2(1152, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6p6qw"]
+size = Vector2(20, 74)
+
+[node name="Minigame 5" type="Node2D" unique_id=1731774065]
+script = ExtResource("1_6fijl")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1246242563]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(-50, 0)
+repeat_times = 4
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D" unique_id=1391829666]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_6fijl")
+
+[node name="Platform" type="StaticBody2D" parent="." unique_id=663039714]
+position = Vector2(0, 584)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=793484122]
+position = Vector2(576, 32)
+shape = SubResource("RectangleShape2D_6fijl")
+
+[node name="Parallax2D" type="Parallax2D" parent="Platform" unique_id=731597386]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(-400, 0)
+repeat_times = 4
+
+[node name="GroundTexture" type="TextureRect" parent="Platform/Parallax2D" unique_id=1527266036]
+offset_top = -26.0
+offset_right = 1152.0
+offset_bottom = 64.0
+texture = ExtResource("2_bgv4i")
+stretch_mode = 4
+
+[node name="Player Jumping Game" parent="." unique_id=242961018 instance=ExtResource("4_28s5m")]
+position = Vector2(200, 512)
+scale = Vector2(4, 4)
+
+[node name="Obstacle" type="StaticBody2D" parent="." unique_id=1982852470]
+position = Vector2(1216, 528)
+script = ExtResource("5_ofli8")
+
+[node name="TextureRect" type="TextureRect" parent="Obstacle" unique_id=206227570]
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 56.0
+texture = ExtResource("6_kpx3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle" unique_id=1939021183]
+position = Vector2(32, 21)
+shape = SubResource("RectangleShape2D_6p6qw")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacle" unique_id=1805471783]
+position = Vector2(72, -8)
+rect = Rect2(-10, -10, 20, 74)
+
+[node name="Obstacle2" type="StaticBody2D" parent="." unique_id=25881208]
+position = Vector2(1648, 528)
+script = ExtResource("5_ofli8")
+
+[node name="TextureRect" type="TextureRect" parent="Obstacle2" unique_id=542132430]
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 56.0
+texture = ExtResource("6_kpx3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle2" unique_id=591916109]
+position = Vector2(32, 21)
+shape = SubResource("RectangleShape2D_6p6qw")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacle2" unique_id=1267301817]
+position = Vector2(72, -8)
+rect = Rect2(-10, -10, 20, 74)
+
+[node name="Obstacle3" type="StaticBody2D" parent="." unique_id=1906339735]
+position = Vector2(1712, 528)
+script = ExtResource("5_ofli8")
+
+[node name="TextureRect" type="TextureRect" parent="Obstacle3" unique_id=1996147980]
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 56.0
+texture = ExtResource("6_kpx3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle3" unique_id=2099334819]
+position = Vector2(32, 21)
+shape = SubResource("RectangleShape2D_6p6qw")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacle3" unique_id=762689030]
+position = Vector2(72, -8)
+rect = Rect2(-10, -10, 20, 74)
+
+[node name="timer" parent="." unique_id=844459433 instance=ExtResource("7_ykq01")]
+position = Vector2(960, 0)
+
+[connection signal="player_died" from="Player Jumping Game" to="." method="_on_player_jumping_game_player_died"]
+[connection signal="screen_exited" from="Obstacle/VisibleOnScreenNotifier2D" to="Obstacle" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="Obstacle2/VisibleOnScreenNotifier2D" to="Obstacle2" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="Obstacle3/VisibleOnScreenNotifier2D" to="Obstacle3" method="_on_visible_on_screen_notifier_2d_screen_exited"]
