@@ -7,13 +7,15 @@ extends Node2D
 @onready var life_5: TextureRect = $LivesContainer/Life5
 @onready var level: RichTextLabel = $Level
 @onready var timer: RichTextLabel = $Timer
+@onready var hint: RichTextLabel = $LevelExplanation
 
 var time
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await Timer(2.0) # using the function created
 	
-	if Global.minigames_done < 4: # if you havent completed 3 minigames yet 
+	if Global.minigames_done < Global.minigames_amount: # if you havent completed 3 minigames yet 
 		Global.minigames_done = Global.minigames_done +1
 		get_tree().change_scene_to_file("res://Scenes/minigame_" + str(Global.minigames_done) + ".tscn") # changes your scene by arranging this frankenstein path. 
 # Above, your script is being told to go to the next minigame. If the 
@@ -52,6 +54,16 @@ func _process(delta: float) -> void: # runs EVERY FRAME
 	
 	timer.text = "[center]" + str(time) + "[/center]" # make the text reflect the value of the time variable. this makes names easier. the str() converts the int to a String
 	level.text = "[center]" + "Level " + str(Global.minigames_done + 1) + "[/center]" # this tells you want minigame you're on using concatenation (google the word yo)
+	if Global.minigames_done == 0:
+		hint.text = "[center]Hint: Collect all three coins[/center]"
+	elif Global.minigames_done == 1:
+		hint.text = "[center]Hint: Click all ten coins[/center]"
+	elif Global.minigames_done == 2:
+		hint.text = "[center]Hint: Navigate through the obstacles[/center]"
+	elif Global.minigames_done == 3:
+		hint.text = "[center]Hint: It's Pong[/center]"
+	elif Global.minigames_done == 4:
+		hint.text = "[center]Hint: Use your mouse to steer, and go left[/center]"
 
 func Timer(start_time: float): # making a new function for timer countdown!
 	# we want the timer to go down, and when it reaches 0 it transitions 

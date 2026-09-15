@@ -8,12 +8,16 @@
 [ext_resource type="Script" uid="uid://buec0di6kybdh" path="res://Scenes/rune.gd" id="4_0uv5o"]
 [ext_resource type="Texture2D" uid="uid://bqt8wb12qqvp6" path="res://Assets/Objects/MeowGame Platformer Platform.png" id="4_jmcek"]
 [ext_resource type="PackedScene" uid="uid://dbyolgwo443uk" path="res://Scenes/timer.tscn" id="6_0uv5o"]
+[ext_resource type="AudioStream" uid="uid://6torjxf5rso4" path="res://Assets/Audio/collectRune.wav" id="9_ne1wf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11mgy"]
 size = Vector2(1152, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6p6qw"]
 size = Vector2(296, 32)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6p6qw"]
+polygon = PackedVector2Array(0, 0, 296, 0, 288, 32, 196.02658, 31.99997, 8, 32)
 
 [sub_resource type="Animation" id="Animation_o6yob"]
 loop_mode = 2
@@ -29,6 +33,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 41)]
+}
 
 [sub_resource type="Animation" id="Animation_5txvl"]
 resource_name = "floating"
@@ -43,7 +59,31 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -32)]
+"values": [Vector2(0, 0), Vector2(0, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("PointLight2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PointLight2D:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(40, 41), Vector2(40, 32)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0uv5o"]
@@ -54,6 +94,47 @@ _data = {
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6p6qw"]
 radius = 40.0
+
+[sub_resource type="Curve" id="Curve_rfxq2"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 150.56181), 0.0, 0.0, 0, 0, Vector2(1, -74.15729), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_qytqt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_jmcek"]
+colors = PackedColorArray(1, 1, 0.07450981, 1, 0.7647059, 0.84313726, 0.08627451, 0)
+
+[sub_resource type="Curve" id="Curve_ne1wf"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0.9550562), 0.0, 0.0, 0, 0, Vector2(0.9946809, 0.8202247), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_bgn8b"]
+offsets = PackedFloat32Array(0.53614455, 1)
+colors = PackedColorArray(1, 1, 0.52156866, 1, 1, 1, 0.49411765, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ne1wf"]
+gradient = SubResource("Gradient_bgn8b")
+fill = 1
+fill_from = Vector2(0.46521738, 0.47391304)
+fill_to = Vector2(0.04347826, 0.50869566)
+
+[sub_resource type="Curve" id="Curve_jmcek"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0.010638304, 200), 0.0, 0.0, 0, 0, Vector2(1, 200), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e8373"]
+size = Vector2(32, 648)
+
+[sub_resource type="Environment" id="Environment_6p6qw"]
+background_mode = 3
+tonemap_mode = 3
+glow_enabled = true
+glow_bloom = 0.11
 
 [node name="Minigame 1" type="Node2D" unique_id=1813012965]
 script = ExtResource("1_5txvl")
@@ -87,13 +168,16 @@ position = Vector2(304, 488)
 [node name="Platform Texture" type="TextureRect" parent="Platform2" unique_id=1622297619]
 offset_top = -13.0
 offset_right = 296.0
-offset_bottom = 51.0
+offset_bottom = 56.0
 texture = ExtResource("4_jmcek")
 stretch_mode = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2" unique_id=1980872311]
 position = Vector2(148, 16)
 shape = SubResource("RectangleShape2D_6p6qw")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Platform2" unique_id=1351020562]
+occluder = SubResource("OccluderPolygon2D_6p6qw")
 
 [node name="Platform3" type="StaticBody2D" parent="." unique_id=1905112995]
 position = Vector2(568, 384)
@@ -109,6 +193,9 @@ stretch_mode = 4
 position = Vector2(148, 16)
 shape = SubResource("RectangleShape2D_6p6qw")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Platform3" unique_id=1414759595]
+occluder = SubResource("OccluderPolygon2D_6p6qw")
+
 [node name="Platform4" type="StaticBody2D" parent="." unique_id=1740492779]
 position = Vector2(856, 272)
 
@@ -123,17 +210,16 @@ stretch_mode = 4
 position = Vector2(148, 16)
 shape = SubResource("RectangleShape2D_6p6qw")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Platform4" unique_id=1942961762]
+occluder = SubResource("OccluderPolygon2D_6p6qw")
+
 [node name="Player" parent="." unique_id=1395390089 instance=ExtResource("2_11mgy")]
 position = Vector2(88, 536)
+scale = Vector2(3.8, 3.8)
 
 [node name="Rune" type="Node2D" parent="." unique_id=520859927]
 position = Vector2(416, 408)
 script = ExtResource("4_0uv5o")
-
-[node name="RuneTexture" type="TextureRect" parent="Rune" unique_id=588686333]
-offset_right = 72.0
-offset_bottom = 72.0
-texture = ExtResource("3_f6tb2")
 
 [node name="RuneAnimation" type="AnimationPlayer" parent="Rune" unique_id=88577561]
 libraries/ = SubResource("AnimationLibrary_0uv5o")
@@ -145,8 +231,45 @@ position = Vector2(32, 40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rune/Area2D" unique_id=590848708]
 shape = SubResource("CircleShape2D_6p6qw")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Rune" unique_id=1213304194]
+position = Vector2(31.999996, 39.999996)
+scale = Vector2(0.99999994, 0.99999994)
+emitting = false
+amount = 24
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.85
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 79.71
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+linear_accel_curve = SubResource("Curve_rfxq2")
+scale_amount_min = 30.0
+scale_amount_max = 50.0
+scale_amount_curve = SubResource("Curve_qytqt")
+color = Color(1, 1, 0, 1)
+color_ramp = SubResource("Gradient_jmcek")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("Curve_ne1wf")
+
+[node name="PointLight2D" type="PointLight2D" parent="Rune" unique_id=1029735388]
+position = Vector2(40, 41)
+scale = Vector2(1.8124998, 1.71875)
+energy = 0.3
+texture = SubResource("GradientTexture2D_ne1wf")
+
+[node name="RuneTexture" type="TextureRect" parent="Rune" unique_id=588686333]
+offset_right = 72.0
+offset_bottom = 72.0
+texture = ExtResource("3_f6tb2")
+
 [node name="Rune2" type="Node2D" parent="." unique_id=762582265]
-position = Vector2(680, 296)
+position = Vector2(696, 288)
 script = ExtResource("4_0uv5o")
 
 [node name="RuneTexture" type="TextureRect" parent="Rune2" unique_id=1567747474]
@@ -164,8 +287,40 @@ position = Vector2(32, 40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rune2/Area2D" unique_id=1307456354]
 shape = SubResource("CircleShape2D_6p6qw")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Rune2" unique_id=1997189358]
+position = Vector2(31.999996, 39.999996)
+scale = Vector2(0.99999994, 0.99999994)
+emitting = false
+amount = 24
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.85
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 79.71
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+linear_accel_curve = SubResource("Curve_jmcek")
+scale_amount_min = 25.0
+scale_amount_max = 25.0
+scale_amount_curve = SubResource("Curve_qytqt")
+color = Color(1, 1, 0, 1)
+color_ramp = SubResource("Gradient_jmcek")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("Curve_ne1wf")
+
+[node name="PointLight2D" type="PointLight2D" parent="Rune2" unique_id=638590627]
+position = Vector2(40, 41)
+scale = Vector2(1.8124998, 1.71875)
+energy = 0.3
+texture = SubResource("GradientTexture2D_ne1wf")
+
 [node name="Rune3" type="Node2D" parent="." unique_id=1203052764]
-position = Vector2(976, 184)
+position = Vector2(976, 176)
 script = ExtResource("4_0uv5o")
 
 [node name="RuneTexture" type="TextureRect" parent="Rune3" unique_id=785000258]
@@ -183,8 +338,71 @@ position = Vector2(32, 40)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rune3/Area2D" unique_id=340910603]
 shape = SubResource("CircleShape2D_6p6qw")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Rune3" unique_id=361446190]
+position = Vector2(31.999996, 39.999996)
+scale = Vector2(0.99999994, 0.99999994)
+emitting = false
+amount = 24
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.85
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 79.71
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+linear_accel_curve = SubResource("Curve_jmcek")
+scale_amount_min = 25.0
+scale_amount_max = 25.0
+scale_amount_curve = SubResource("Curve_qytqt")
+color = Color(1, 1, 0, 1)
+color_ramp = SubResource("Gradient_jmcek")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("Curve_ne1wf")
+
+[node name="PointLight2D" type="PointLight2D" parent="Rune3" unique_id=1665668461]
+position = Vector2(40, 41)
+scale = Vector2(1.8124998, 1.71875)
+energy = 0.3
+texture = SubResource("GradientTexture2D_ne1wf")
+
 [node name="timer" parent="." unique_id=844459433 instance=ExtResource("6_0uv5o")]
 position = Vector2(960, 0)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1368753795]
+stream = ExtResource("9_ne1wf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1210152428]
+position = Vector2(-32, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=485141500]
+position = Vector2(16, 324)
+shape = SubResource("RectangleShape2D_e8373")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1750307786]
+position = Vector2(1152, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=635732411]
+position = Vector2(16, 324)
+shape = SubResource("RectangleShape2D_e8373")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1472832238]
+position = Vector2(-136, -112)
+rotation = -1.1007234
+energy = 0.09
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.0
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=29504645]
+color = Color(0.4640289, 0.3847323, 0.59870404, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=434449649]
+environment = SubResource("Environment_6p6qw")
 
 [connection signal="runes_collected" from="Rune" to="." method="_on_rune_runes_collected"]
 [connection signal="runes_collected" from="Rune2" to="." method="_on_rune_runes_collected"]
