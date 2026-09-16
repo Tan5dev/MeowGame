@@ -26,6 +26,8 @@ What I learned:
 - Basic GDscript skills
 - How to create pixel art for games
 
+[Minigame example](Screenshots/Screenshot_Platformer.png)
+
 Credits
 Art is created by me<br>
 BGM: Audio from opengameart.org by mrpoly<br>
