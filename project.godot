@@ -22,7 +22,7 @@ buses/default_bus_layout="uid://ctihh4b3ylwbm"
 [autoload]
 
 Global="*uid://cbvdj3m25utnt"
-BgmPlayer="*uid://buy78hme6x0cu"
+BgmPlayer="*uid://vgcn25ap61q8"
 PauseMenu="*uid://batt6dr4kx6ou"
 
 [display]
@@ -70,3 +70,5 @@ rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 viewport/hdr_2d=true
+
+
